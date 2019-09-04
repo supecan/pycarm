@@ -1,6 +1,6 @@
 from sys import argv
-name_r = input("Entername Router : ")
-name_param = input("Inter name parametr(ios, model, vendor, location, ip)")
+name_r = input("Enter name Router: ")
+name_param = input("Inter name parametr(ios, model, vendor, location, ip)".lower())
 london_co = {
     'r1': {
         'location': '21 New Globe Walk',
