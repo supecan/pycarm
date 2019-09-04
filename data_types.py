@@ -6,4 +6,10 @@ access_template = ['switchport mode access',
                    'spanning-tree portfast',
                    'spanning-tree bpduguard enable'
                     'spanning-tree bpduguard enable']
+access_template2 = ['switchport mode access',
+                   'switchport access vlan {}',
+                   'switchport nonegotiate',
+                   'spanning-tree portfast',
+                   'spanning-tree bpduguard enable'
+                    'spanning-tree bpduguard enable']
 print('\n'.join(access_template).format(5))
