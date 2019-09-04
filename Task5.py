@@ -1,5 +1,6 @@
-'''from sys import argv
+from sys import argv
 name_r = input("Entername Router: ")
+name_param = input("Inter name parametr")
 london_co = {
     'r1': {
         'location': '21 New Globe Walk',
@@ -25,4 +26,5 @@ london_co = {
         'routing': True
     }
 }
-print(london_co[name_r])'''
+'''print(london_co[name_r])'''
+print(london_co[name_r][name_param])
