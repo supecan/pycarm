@@ -1,28 +1,45 @@
-from sys import argv
-
-Ip_adress = argv[1]
-IP_adress= Ip_adress.replace('/','.')
-IP_adress = IP_adress.split(".")
-int(IP_adress[0])
-int(IP_adress[1])
-int(IP_adress[2])
-int(IP_adress[3])
-mask = IP_adress.pop(-1)
-mask = int(mask)
-msk = (mask * '1') + ((32 - mask) * "0")
-print(msk)
+mode = input("Enter mode: (access/trunk )")
+interface = input("Enter number interface ")
+vlan = input("Enter VLAN")
 
 
-ip_template = '''
-    ...: IP address:
-    ...: {:<08b} {:<08b} {:<08b} {:<08b}
-    ...: '''
 
-mask_template = '''
-    ...: Mask:
-    ...: {} {} {} {}
-    ...: '''
+access_template = [
+    'switchport mode access', 'switchport access vlan {}',
+    'switchport nonegotiate', 'spanning-tree portfast',
+    'spanning-tree bpduguard enable'
+]
+
+trunk_template = [
+    'switchport trunk encapsulation dot1q', 'switchport mode trunk',
+    'switchport trunk allowed vlan {}'
+]
 
 
-print(ip_template.format(int(IP_adress[0]), int(IP_adress[1]),int(IP_adress[2]), int(IP_adress[3])))
-print(mask_template.format(msk[0:8], msk[8:16], msk[16:24], msk[24:32]))
+
+template = {'access':access_template, 'trunk':trunk_template}
+
+print('interface {}'.format(interface))
+print('\n'.join(template[mode]).format(vlan))
+
+
+
+
+
+'''
+trunk_template = [
+    'switchport trunk encapsulation dot1q', 'switchport mode trunk',
+    'switchport trunk allowed vlan {}'
+]
+
+print('interface {}'.format(interface))
+
+vlan = input('Enter VLAN number: ')
+
+access_template = ['switchport mode access',
+                   'switchport access vlan {}',
+                   'switchport nonegotiate',
+                   'spanning-tree portfast',
+                   'spanning-tree bpduguard enable']
+print('\n'.join(access_template).format(vlan))
+'''
