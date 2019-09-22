@@ -1,37 +1,43 @@
-ip_adr = input("Enter IP adress like 'x.x.x.x': ")
-bin_octets = []
+access_template = [
+    'switchport mode access', 'switchport access vlan',
+    'spanning-tree portfast', 'spanning-tree bpduguard enable'
+]
 
-ip_correct=False
-while not ip_correct:
-    poit_count=ip_adr.count ( "." )
-    if poit_count == 3:
-        split_ip = ip_adr.split('.')
-        for octets_ip in split_ip:
-            if int ( octets_ip ) <= 255:
-                if ip_adr == '0.0.0.0':
-                    print ( 'unassigned' )
-                    break
-                elif ip_adr == '255.255.255.255':
-                    print ( 'local broadcast' )
-                    ip_correct=True
-                    break
-                elif int ( split_ip[ 0 ] ) < 223:
-                    print ( 'unicast' )
-                    ip_correct=True
-                    break
-                elif int ( split_ip[ 0 ] ) > 224 and int ( split_ip[ 0 ] ) < 239:
-                    print ( 'multicast' )
-                    ip_correct=True
-                    break
-                else:
-                    print ( 'unused' )
-                    ip_correct=True
-                    break
-            else:
-                print ( "Number more: 255." )
-                ip_adr = input("Enter IP again: ")
+trunk_template = [
+    'switchport trunk encapsulation dot1q', 'switchport mode trunk',
+    'switchport trunk allowed vlan'
+]
+
+access = {
+    '0/12': '10',
+    '0/14': '11',
+    '0/16': '17',
+    '0/17': '150'
+}
+trunk = {
+        '0/1': ['add', '10', '20'],
+        '0/2': ['only', '11', '30'],
+        '0/4': ['del', '17']
+    }
+for intf, vlan in trunk.items():
+    print('interface FastEthernet' + intf)
+    for command in trunk_template:
+        if command.endswith('mode trunk'):
+            if vlan[0] == "add":
+                print("{} {}".format("switchport trunk allowed vlan add", vlan[1]))
+            elif vlan[0] == "only":
+                print("{} {}".format("switchport trunk allowed vlan ", vlan[1::]))
+            elif vlan[0] == "del":
+                print("{} {}".format("switchport trunk allowed vlan remove ", vlan[1::]))
+        else:
+            print(' {}'.format(command))
 
 
-    else:
-        print("Enter like: x.x.x.x")
-        ip_adr = input("Enter IP again: ")
+
+'''for intf, vlan in access.items():
+    print('interface FastEthernet' + intf)
+    for command in access_template:
+        if command.endswith('access vlan'):
+            print(' {} {}'.format(command, vlan))
+        else:
+            print(' {}'.format(command))'''
